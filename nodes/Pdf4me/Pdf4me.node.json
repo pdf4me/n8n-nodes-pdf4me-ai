@@ -1,0 +1,20 @@
+{
+	"node": "n8n-nodes-base.Pdf4me",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": [
+		"Miscellaneous"
+	],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://dev.pdf4me.com/pricing/"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://docs.pdf4me.com/n8n/getting-started/"
+			}
+		]
+	}
+}
