@@ -7,11 +7,11 @@
   ],
   "homepage": "https://docs.pdf4me.com/n8n/getting-started/",
   "bugs": {
-    "url": "https://github.com/pdf4me/n8n-nodes-pdf4me/issues"
+    "url": "https://github.com/pdf4me/n8n-nodes-pdf4me-ai/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pdf4me/n8n-nodes-pdf4me.git"
+    "url": "git+https://github.com/pdf4me/n8n-nodes-pdf4me-ai.git"
   },
   "license": "MIT",
   "author": "PDF4me <support@pdf4me.com>",
