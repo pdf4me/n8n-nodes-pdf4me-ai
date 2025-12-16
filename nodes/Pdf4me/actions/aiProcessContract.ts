@@ -1,5 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
-import type { IExecuteFunctions, IDataObject } from 'n8n-workflow';
+import type { IExecuteFunctions, IDataObject, JsonObject } from 'n8n-workflow';
+import { NodeApiError, NodeOperationError } from 'n8n-workflow';
 import {
 	pdf4meAsyncRequest,
 	ActionConstants,
@@ -123,7 +124,7 @@ export async function execute(this: IExecuteFunctions, index: number) {
 		const item = this.getInputData(index);
 
 		if (!item[0].binary || !item[0].binary[binaryPropertyName]) {
-			throw new Error(`No binary data found in property '${binaryPropertyName}'`);
+			throw new NodeOperationError(this.getNode(), `No binary data found in property '${binaryPropertyName}'`);
 		}
 
 		const buffer = await this.helpers.getBinaryDataBuffer(index, binaryPropertyName);
@@ -147,17 +148,17 @@ export async function execute(this: IExecuteFunctions, index: number) {
 		const buffer = Buffer.from(response);
 		docContent = buffer.toString('base64');
 	} else {
-		throw new Error(`Unsupported input data type: ${inputDataType}`);
+		throw new NodeOperationError(this.getNode(), `Unsupported input data type: ${inputDataType}`);
 	}
 
 	// Validate contract content
 	if (!docContent || docContent.trim() === '') {
-		throw new Error('Contract content is required');
+		throw new NodeOperationError(this.getNode(), 'Contract content is required');
 	}
 
 	// Validate that base64 content looks like a PDF
 	if (!docContent.startsWith('JVBERi0x')) {
-		throw new Error(`Invalid PDF content. Base64 should start with 'JVBERi0x' (PDF header), but starts with: ${docContent.substring(0, 20)}`);
+		throw new NodeOperationError(this.getNode(), `Invalid PDF content. Base64 should start with 'JVBERi0x' (PDF header), but starts with: ${docContent.substring(0, 20)}`);
 	}
 
 	// Build the request payload - exactly like Python script
@@ -174,22 +175,10 @@ export async function execute(this: IExecuteFunctions, index: number) {
 		result = await pdf4meAsyncRequest.call(this, '/api/v2/ProcessContract', payload);
 	} catch (error) {
 		// Enhanced error handling with debugging context
-		if (error.code === 'ECONNRESET') {
-			throw new Error(`Connection was reset. Debug: docLength=${docContent?.length}, docName=${docName}`);
-		} else if (error.statusCode === 500) {
-			throw new Error(`PDF4Me server error (500): ${error.message || 'The service was not able to process your request.'} | Debug: docLength=${docContent?.length}, docName=${docName}`);
-		} else if (error.statusCode === 404) {
-			throw new Error(`API endpoint not found. Debug: docLength=${docContent?.length}, docName=${docName}`);
-		} else if (error.statusCode === 401) {
-			throw new Error(`Authentication failed. Debug: docLength=${docContent?.length}, docName=${docName}`);
-		} else if (error.statusCode === 403) {
-			throw new Error(`Access denied. Debug: docLength=${docContent?.length}, docName=${docName}`);
-		} else if (error.statusCode === 429) {
-			throw new Error(`Rate limit exceeded. Debug: docLength=${docContent?.length}, docName=${docName}`);
-		} else if (error.statusCode) {
-			throw new Error(`PDF4Me API error (${error.statusCode}): ${error.message || 'Unknown error'} | Debug: docLength=${docContent?.length}, docName=${docName}`);
+		if (error.statusCode) {
+			throw new NodeApiError(this.getNode(), error as JsonObject);
 		} else {
-			throw new Error(`Connection error: ${error.message || 'Unknown connection issue'} | Debug: docLength=${docContent?.length}, docName=${docName}, errorCode=${error.code}`);
+			throw new NodeOperationError(this.getNode(), `Connection error: ${error.message || 'Unknown connection issue'} | Debug: docLength=${docContent?.length}, docName=${docName}, errorCode=${error.code}`);
 		}
 	}
 
@@ -205,7 +194,7 @@ export async function execute(this: IExecuteFunctions, index: number) {
 				processedData = result;
 			}
 		} catch (error) {
-			throw new Error(`Failed to parse API response: ${error.message}`);
+			throw new NodeOperationError(this.getNode(), `Failed to parse API response: ${error.message}`);
 		}
 
 		// Return both raw data and metadata
@@ -221,10 +210,11 @@ export async function execute(this: IExecuteFunctions, index: number) {
 						operation: 'aiProcessContract',
 					},
 				},
+				pairedItem: { item: index },
 			},
 		];
 	}
 
 	// Error case - no response received
-	throw new Error('No response data received from PDF4ME AI Contract Processing API');
+	throw new NodeOperationError(this.getNode(), 'No response data received from PDF4ME AI Contract Processing API');
 }

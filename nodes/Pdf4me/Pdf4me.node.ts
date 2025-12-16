@@ -54,7 +54,7 @@ export class Pdf4me implements INodeType {
 				}
 			} catch (err) {
 				if (this.continueOnFail()) {
-					operationResult.push({ json: this.getInputData(i)[0].json, error: err });
+					operationResult.push({ json: this.getInputData(i)[0].json, error: err, pairedItem: { item: i } });
 				} else {
 					throw err;
 				}
