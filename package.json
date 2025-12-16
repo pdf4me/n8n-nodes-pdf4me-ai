@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pdf4me-ai",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "n8n community node for PDF4me API integration",
   "keywords": [
     "n8n-community-node-package"
