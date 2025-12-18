@@ -5,8 +5,8 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class Pdf4meApi implements ICredentialType {
-	name = 'pdf4meApi';
+export class Pdf4meAiApi implements ICredentialType {
+	name = 'pdf4meAiApi';
 	displayName = 'PDF4ME API';
 	documentationUrl = 'https://dev.pdf4me.com/pricing/';
 	properties: INodeProperties[] = [

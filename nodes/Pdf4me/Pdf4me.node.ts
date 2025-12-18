@@ -17,7 +17,7 @@ import * as aiProcessPayStub from './actions/aiProcessPayStub';
 import * as aiProcessMarriageCertificate from './actions/aiProcessMarriageCertificate';
 import { ActionConstants } from './GenericFunctions';
 
-export class Pdf4me implements INodeType {
+export class Pdf4meAi implements INodeType {
 	description: INodeTypeDescription;
 
 	constructor(baseDescription: INodeTypeBaseDescription) {
