@@ -174,7 +174,7 @@ export async function execute(this: IExecuteFunctions, index: number) {
 	} else if (inputDataType === 'url') {
 		// Download file from URL and convert to base64
 		const payStubUrl = this.getNodeParameter('payStubUrl', index) as string;
-		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meApi', {
+		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meAiApi', {
 			method: 'GET' as const,
 			url: payStubUrl,
 			encoding: 'arraybuffer' as const,

@@ -105,7 +105,7 @@ export const description: INodeProperties[] = [
 /**
  * AI Process Health Card - Extract structured data from health cards using PDF4ME's AI/ML technology
  * Process: Read health card → Encode to base64 → Send API request → Poll for completion → Return extracted results
- * 
+ *
  * This action mirrors the Python process_health_card() function functionality exactly:
  * - Extracts member information, policy details, coverage, and dependent data
  * - Supports various health card formats using AI/ML technology
@@ -141,7 +141,7 @@ export async function execute(this: IExecuteFunctions, index: number) {
 	} else if (inputDataType === 'url') {
 		// Download file from URL and convert to base64
 		const healthCardUrl = this.getNodeParameter('healthCardUrl', index) as string;
-		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meApi', {
+		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meAiApi', {
 			method: 'GET' as const,
 			url: healthCardUrl,
 			encoding: 'arraybuffer' as const,

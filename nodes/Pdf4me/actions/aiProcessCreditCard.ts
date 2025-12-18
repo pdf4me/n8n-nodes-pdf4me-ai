@@ -174,7 +174,7 @@ export async function execute(this: IExecuteFunctions, index: number) {
 	} else if (inputDataType === 'url') {
 		// Download file from URL and convert to base64
 		const creditCardUrl = this.getNodeParameter('creditCardUrl', index) as string;
-		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meApi', {
+		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meAiApi', {
 			method: 'GET' as const,
 			url: creditCardUrl,
 			encoding: 'arraybuffer' as const,

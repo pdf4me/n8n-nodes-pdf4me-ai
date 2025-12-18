@@ -12,10 +12,10 @@ import { ActionConstants } from './GenericFunctions';
 
 export const descriptions: INodeTypeDescription = {
 	displayName: 'PDF4me AI',
-	name: 'PDF4me',
+	name: 'PDF4meAi',
 	description: 'AI-powered document processing: extract structured data from invoices, contracts, health cards, mortgage documents, bank cheques, credit cards, pay stubs, and marriage certificates using PDF4ME AI technology',
 	defaults: {
-		name: 'PDF4me',
+		name: 'PDF4meAi',
 	},
 	group: ['transform'],
 	icon: 'file:300.svg',
@@ -23,7 +23,7 @@ export const descriptions: INodeTypeDescription = {
 	outputs: [NodeConnectionType.Main],
 	credentials: [
 		{
-			name: 'pdf4meApi',
+			name: 'pdf4meAiApi',
 			required: true,
 		},
 	], // eslint-disable-line n8n-nodes-base/node-param-default-missing

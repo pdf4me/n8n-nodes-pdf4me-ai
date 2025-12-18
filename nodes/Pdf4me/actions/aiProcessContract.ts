@@ -104,7 +104,7 @@ export const description: INodeProperties[] = [
 /**
  * AI Process Contract - Extract structured data from contracts using PDF4ME's AI/ML technology
  * Process: Read contract → Encode to base64 → Send API request → Poll for completion → Return extracted results
- * 
+ *
  * This action mirrors the Python process_contract() function functionality exactly:
  * - Extracts contract terms, dates, parties, obligations, and clauses
  * - Supports various contract formats using AI/ML technology
@@ -140,7 +140,7 @@ export async function execute(this: IExecuteFunctions, index: number) {
 	} else if (inputDataType === 'url') {
 		// Download file from URL and convert to base64
 		const contractUrl = this.getNodeParameter('contractUrl', index) as string;
-		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meApi', {
+		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'pdf4meAiApi', {
 			method: 'GET' as const,
 			url: contractUrl,
 			encoding: 'arraybuffer' as const,
